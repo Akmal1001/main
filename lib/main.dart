@@ -1,10 +1,13 @@
-import 'package:aplication/view/bottom_nav_page.dart';
+import 'package:aplication/provider/home_provier.dart';
+import 'package:aplication/view/home_page.dart';
 import 'package:flutter/material.dart';
-
+import 'package:provider/provider.dart';
 void main() {
-  runApp(MyApp());
+  runApp(MultiProvider(
+    providers: [ChangeNotifierProvider(create: (context) => HomeProvider())],
+    child: MyApp(),
+  ));
 }
-
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -13,7 +16,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: BottomNavPage(),
+      home: HomePage(),
     );
   }
 }
