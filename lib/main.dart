@@ -1,12 +1,12 @@
-import 'package:aplication/provider/home_provier.dart';
-import 'package:aplication/view/home_page.dart';
+import 'package:aplication/cubit/data_state.dart';
+import 'package:aplication/view/start_page.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
 void main() {
-  runApp(MultiProvider(
-    providers: [ChangeNotifierProvider(create: (context) => HomeProvider())],
-    child: MyApp(),
-  ));
+  runApp(MultiBlocProvider(providers: [
+    BlocProvider(create: (context) => HomeCubit(),)
+  ], child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: HomePage(),
+      home: StartPage(),
     );
   }
 }
