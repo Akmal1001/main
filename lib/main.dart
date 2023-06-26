@@ -1,7 +1,11 @@
-import 'package:aplication/animation/colors_animation_page.dart';
+import 'package:aplication/repository/user_repository.dart';
+import 'package:aplication/view/home_page.dart';
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
-void main() {
+void main() async {
+  await Hive.initFlutter();
+  UserRepository().registerAdapter();
   runApp(MyApp());
 }
 
@@ -12,7 +16,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: ColorsAnimationPage(),
+      home: HomePage(),
     );
   }
 }
