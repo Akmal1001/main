@@ -1,10 +1,10 @@
-import 'package:hive/hive.dart';
+import 'package:hive_flutter/adapters.dart';
 
-part 'user_model.g.dart';
+part 'news_model.g.dart';
 
 @HiveType(typeId: 0)
-class UserModel {
-  @HiveField(0)
+class NewsModel {
+ @HiveField(0)
   int? id;
   @HiveField(1)
   String? name;
@@ -21,7 +21,7 @@ class UserModel {
   @HiveField(7)
   Company? company;
 
-  UserModel(
+  NewsModel(
       {this.id,
       this.name,
       this.username,
@@ -31,7 +31,7 @@ class UserModel {
       this.website,
       this.company});
 
-  UserModel.fromJson(Map<String, dynamic> json) {
+  NewsModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
     username = json['username'];
@@ -43,25 +43,7 @@ class UserModel {
     company =
         json['company'] != null ? new Company.fromJson(json['company']) : null;
   }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
-    data['username'] = this.username;
-    data['email'] = this.email;
-    if (this.address != null) {
-      data['address'] = this.address!.toJson();
-    }
-    data['phone'] = this.phone;
-    data['website'] = this.website;
-    if (this.company != null) {
-      data['company'] = this.company!.toJson();
-    }
-    return data;
-  }
 }
-
 @HiveType(typeId: 1)
 class Address {
   @HiveField(0)
@@ -84,20 +66,7 @@ class Address {
     zipcode = json['zipcode'];
     geo = json['geo'] != null ? new Geo.fromJson(json['geo']) : null;
   }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['street'] = this.street;
-    data['suite'] = this.suite;
-    data['city'] = this.city;
-    data['zipcode'] = this.zipcode;
-    if (this.geo != null) {
-      data['geo'] = this.geo!.toJson();
-    }
-    return data;
-  }
 }
-
 @HiveType(typeId: 2)
 class Geo {
   @HiveField(0)
@@ -111,18 +80,10 @@ class Geo {
     lat = json['lat'];
     lng = json['lng'];
   }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['lat'] = this.lat;
-    data['lng'] = this.lng;
-    return data;
-  }
 }
-
 @HiveType(typeId: 3)
 class Company {
-  @HiveField(0)
+ @HiveField(0)
   String? name;
   @HiveField(1)
   String? catchPhrase;
@@ -135,13 +96,5 @@ class Company {
     name = json['name'];
     catchPhrase = json['catchPhrase'];
     bs = json['bs'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['name'] = this.name;
-    data['catchPhrase'] = this.catchPhrase;
-    data['bs'] = this.bs;
-    return data;
   }
 }

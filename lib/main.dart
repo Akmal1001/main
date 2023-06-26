@@ -1,12 +1,12 @@
-import 'package:aplication/repository/user_repository.dart';
+import 'package:aplication/repository/news_repository.dart';
 import 'package:aplication/view/home_page.dart';
 import 'package:flutter/material.dart';
-import 'package:hive_flutter/hive_flutter.dart';
+import 'package:hive_flutter/adapters.dart';
 
 void main() async {
   await Hive.initFlutter();
-  UserRepository().registerAdapter();
-  runApp(const MyApp());
+  NewRepository().registerAdapter();
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -14,9 +14,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: HomePage(),
-    );
+    return const MaterialApp(
+        debugShowCheckedModeBanner: false, home: HomePage());
   }
 }
