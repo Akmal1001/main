@@ -1,10 +1,11 @@
 import 'package:aplication/provider/home_provider.dart';
-import 'package:aplication/view/second_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+  HomePage({super.key});
+
+  TextEditingController editTitleController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -13,21 +14,12 @@ class HomePage extends StatelessWidget {
       builder: (context, child) {
         return Scaffold(
           appBar: AppBar(
-            backgroundColor: Colors.white,
             title: const Text(
-              "Chats",
+              "You can check your notification here",
               style: TextStyle(color: Colors.black),
             ),
-            actions: [
-              SizedBox(
-                height: 30.0,
-                width: 30.0,
-                child: CircleAvatar(
-                  backgroundImage:
-                      NetworkImage("https://source.unsplash.com/random/"),
-                ),
-              )
-            ],
+            centerTitle: true,
+            backgroundColor: Colors.white,
           ),
           body: Builder(builder: (context) {
             var provider = Provider.of<Homeprovider>(context);
@@ -43,44 +35,71 @@ class HomePage extends StatelessWidget {
               return ListView.builder(
                 itemBuilder: (context, index) {
                   return Dismissible(
+                    background: Row(
+                      children: [
+                        Expanded(
+                          child: Container(
+                            height: double.infinity,
+                            width: double.infinity,
+                            color: Colors.yellow,
+                            child: const Icon(Icons.archive),
+                          ),
+                        ),
+                        Expanded(
+                            child: Container(
+                          height: double.infinity,
+                          width: double.infinity,
+                          color: Colors.red,
+                          child: const Icon(Icons.delete),
+                        ))
+                      ],
+                    ),
                     key: UniqueKey(),
-                    background: Row(children: [
-                      Expanded(
-                          child: Container(
-                        height: double.infinity,
-                        width: double.infinity,
-                        color: Colors.yellow,
-                        child: const Icon(Icons.archive),
-                      )),
-                      Expanded(
-                          child: Container(
-                        height: double.infinity,
-                        width: double.infinity,
-                        color: Colors.red,
-                        child: const Icon(Icons.delete),
-                      )),
-                    ]),
                     onDismissed: (DismissDirection direction) {
-                      if (direction == DismissDirection.endToStart) {
+                      if (direction == DismissDirection.startToEnd) {
                         provider.deleteElement(index);
-                        print("delete");
-                      } else if (direction == DismissDirection.startToEnd) {
-                        print("Archived");
+                      } else if (direction == DismissDirection.endToStart) {
+                        print("Archive");
                       }
                     },
                     child: ListTile(
                       onTap: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => SecondPage()));
+                        showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                title: Text(provider.data!
+                                        .getAt(index)!
+                                        .name
+                                        .toString() +
+                                    " ni qayta nomlash"),
+                                content: Column(
+                                  children: [
+                                    TextFormField(
+                                      controller: editTitleController,
+                                      decoration: const InputDecoration(
+                                        hintText: "Yangi nom kiriting",
+                                      ),
+                                    ),
+                                    ElevatedButton(
+                                        onPressed: () {
+                                          provider.editElementTitle(
+                                              index, editTitleController.text);
+                                          Navigator.pop(context);
+                                        },
+                                        child: const Text("O'zgartirish"))
+                                  ],
+                                ),
+                              );
+                            });
                       },
                       leading: const CircleAvatar(
                           backgroundImage: NetworkImage(
                               "https://source.unsplash.com/random/")),
-                      title: Text(provider.data!.getAt(index)!.name.toString()),
-                      subtitle: Text("This Your Messages"),
-                      trailing: Text("09:50 PM"),
+                      title: Text(provider.data!.get(index)!.name.toString()),
+                      subtitle:
+                          Text(provider.data!.get(index)!.phone.toString()),
+                      trailing: const Icon(Icons.navigate_next),
                     ),
                   );
                 },
@@ -101,32 +120,25 @@ class HomePage extends StatelessWidget {
                   items: const [
                     BottomNavigationBarItem(
                         icon: Icon(
-                          Icons.chat_bubble_outline,
+                          Icons.account_balance_wallet_outlined,
                           color: Colors.black,
                         ),
-                        label: "chats",
+                        label: "wallet",
                         backgroundColor: Color(0xFFFFFFFF)),
                     BottomNavigationBarItem(
                         icon: Icon(
-                          Icons.call_end_outlined,
-                          color: Colors.grey,
+                          Icons.notifications_active_outlined,
+                          color: Colors.black,
                         ),
-                        label: "calls",
+                        label: "notifications",
                         backgroundColor: Color(0xFFFFFFFF)),
                     BottomNavigationBarItem(
                         icon: Icon(
-                          Icons.group_outlined,
-                          color: Colors.grey,
+                          Icons.person_outline,
+                          color: Colors.black,
                         ),
-                        label: "contacts",
+                        label: "Saved",
                         backgroundColor: Color(0xFFFFFFFF)),
-                    BottomNavigationBarItem(
-                        icon: Icon(
-                          Icons.settings_outlined,
-                          color: Colors.grey,
-                        ),
-                        label: "settings",
-                        backgroundColor: Color(0xFFFFFFFF))
                   ]),
             ),
           ),

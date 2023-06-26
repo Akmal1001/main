@@ -1,10 +1,7 @@
+import 'dart:io';
 import 'package:aplication/model/user_model.dart';
 import 'package:aplication/service/get_user_service.dart';
-
-import 'dart:io';
-
 import 'package:hive/hive.dart';
-
 import 'package:path_provider/path_provider.dart';
 
 class UserRepository {

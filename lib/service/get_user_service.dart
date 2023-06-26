@@ -2,11 +2,12 @@ import 'package:aplication/model/user_model.dart';
 import 'package:dio/dio.dart';
 
 class GetUserService {
-  Future<dynamic> getUserService() async {
+  Future getUserService() async {
     try {
       Response response =
           await Dio().get("https://jsonplaceholder.typicode.com/users");
       if (response.statusCode == 200) {
+        print("Hello");
         return (response.data as List)
             .map((e) => UserModel.fromJson(e))
             .toList();
@@ -14,7 +15,7 @@ class GetUserService {
         return response.statusMessage;
       }
     } on DioError catch (e) {
-      return e.message;
+      return e.message.toString();
     }
   }
 }

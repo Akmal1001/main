@@ -7,12 +7,10 @@ class Homeprovider extends ChangeNotifier {
   Homeprovider() {
     getUser();
   }
-
   UserRepository userRepository = UserRepository();
-  Box<UserModel>? data;
-  bool isLoading = false;
   String error = "";
-
+  bool isLoading = false;
+  Box<UserModel>? data;
   void getUser() async {
     isLoading = true;
     notifyListeners();
@@ -36,6 +34,5 @@ class Homeprovider extends ChangeNotifier {
 
   void deleteElement(int index) async {
     await userRepository.deleteElement(index);
-    notifyListeners();
   }
 }
